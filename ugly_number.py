@@ -1,4 +1,4 @@
-__author__ = 'Xing'
+__author__ = 'Xin'
 # Write a program to check whether a given number is an ugly number.
 #
 # Ugly numbers are positive numbers whose prime factors only include 2, 3, 5.
@@ -49,4 +49,4 @@ def nthUglyNumber(n):
         L.append(m)
     return L[n-1]
 
-print(nthUglyNumber(14))
+print(nthUglyNumber(19))
