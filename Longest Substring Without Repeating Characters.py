@@ -3,6 +3,8 @@ __author__ = 'JxKing'
 # For example, the longest substring without repeating letters for "abcabcbb" is "abc",
 # which the length is 3. For "bbbbb" the longest substring is "b", with the length of 1.
 
+
+
 def lengthOfLongestSubstring(s):  #dynamic programming,inspired by greatest sum of slice
     """
     :type s: str
@@ -18,6 +20,8 @@ def lengthOfLongestSubstring(s):  #dynamic programming,inspired by greatest sum 
         else:
             current=current[current.find(word)+1:]+word
     return len(lmax)
+
+
 print(lengthOfLongestSubstring('abcabcbb'),3)
 print(lengthOfLongestSubstring('bbbb'),1)
 print(lengthOfLongestSubstring('b'),1)
