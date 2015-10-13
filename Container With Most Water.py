@@ -24,7 +24,7 @@ def maxArea(height):
     :type height: List[int]
     :rtype: int
     """
-    i,j=0,len(height)-1  #从最大开始考虑
+i,j=0,len(height)-1  #从最大开始考虑
     hmax=0
     while i<j:
         if height[i]<height[j]:

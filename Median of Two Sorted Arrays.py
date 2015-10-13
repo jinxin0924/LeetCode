@@ -27,7 +27,7 @@ def bf_findMedianSortedArrays(nums1, nums2): #合并之后取中间值
     else:
         return merge[n//2]
 
-print(bf_findMedianSortedArrays([0,1,2,3],[4,5,6,7]))
+print(bf_findMedianSortedArrays([0,1,2,3],[1,4,5,6,7,9]))
 
-def findMedianSortedArrays(nums1, nums2):
+# def findMedianSortedArrays(nums1, nums2):
 
