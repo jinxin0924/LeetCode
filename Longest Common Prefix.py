@@ -23,3 +23,27 @@ print(longestCommonPrefix(['aaa','aa','aaaa','aac']))
 print(longestCommonPrefix(['ca','a']))
 print(longestCommonPrefix(["a","a","b"]))
 print(longestCommonPrefix(['aac','ab']))
+
+
+def longestCommonPrefix(strs):
+    """
+    :type strs: List[str]
+    :rtype: str
+    """
+    low = 0
+    high = len(strs[0])
+    if high==0:
+        return ''
+    while high>0:
+        tmp = strs[0][low:high]
+        if all(map(lambda x: tmp == x[low:high], strs)):#compare char segment between in [low,midlle+1)
+            return tmp
+        else:
+            high-=1
+    return ''
+print('second')
+print(longestCommonPrefix(['a','aa','aaaa','aac']))
+print(longestCommonPrefix(['aaa','aa','aaaa','aac']))
+print(longestCommonPrefix(['ca','a']))
+print(longestCommonPrefix(["a","a","b"]))
+print(longestCommonPrefix(['aac','ab']))
