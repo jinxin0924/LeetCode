@@ -1,5 +1,6 @@
 __author__ = 'JxKing'
 # Write a function to find the longest common prefix string amongst an array of strings.
+
 def longestCommonPrefix(strs):
     """
     :type strs: List[str]
@@ -25,7 +26,7 @@ print(longestCommonPrefix(["a","a","b"]))
 print(longestCommonPrefix(['aac','ab']))
 
 
-def longestCommonPrefix(strs):
+def longestCommonPrefix1(strs):
     """
     :type strs: List[str]
     :rtype: str
@@ -42,8 +43,9 @@ def longestCommonPrefix(strs):
             high-=1
     return ''
 print('second')
-print(longestCommonPrefix(['a','aa','aaaa','aac']))
-print(longestCommonPrefix(['aaa','aa','aaaa','aac']))
-print(longestCommonPrefix(['ca','a']))
-print(longestCommonPrefix(["a","a","b"]))
-print(longestCommonPrefix(['aac','ab']))
+
+print(longestCommonPrefix1(['a','aa','aaaa','aac']))
+print(longestCommonPrefix1(['aaa','aa','aaaa','aac']))
+print(longestCommonPrefix1(['ca','a']))
+print(longestCommonPrefix1(["a","a","b"]))
+print(longestCommonPrefix1(['aac','ab']))
