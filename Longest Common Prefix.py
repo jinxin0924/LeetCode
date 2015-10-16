@@ -31,10 +31,10 @@ def longestCommonPrefix1(strs):
     :type strs: List[str]
     :rtype: str
     """
+    if len(strs)==0:
+        return ''
     low = 0
     high = len(strs[0])
-    if high==0:
-        return ''
     while high>0:
         tmp = strs[0][low:high]
         if all(map(lambda x: tmp == x[low:high], strs)):#compare char segment between in [low,midlle+1)
