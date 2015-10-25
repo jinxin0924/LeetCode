@@ -40,4 +40,3 @@ def generateParenthesis(self, n):
     return generate('', n, n)
 
 
-
