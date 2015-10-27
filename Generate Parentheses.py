@@ -29,7 +29,7 @@ class Solution(object):
             elif right>0 and left==0:
                 self.parenthesis(left,right-1,stack[:-1],string+')',pattern)
 s=Solution()
-print(s.generateParenthesis(2))
+print(s.generateParenthesis(3))
 
 def generateParenthesis(self, n):
     def generate(p, left, right, parens=[]):
@@ -38,5 +38,6 @@ def generateParenthesis(self, n):
         if not right:    parens += p,
         return parens
     return generate('', n, n)
-
+s=Solution()
+print(s.generateParenthesis(3))
 
