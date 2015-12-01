@@ -22,13 +22,7 @@ class Solution(object):
         return result
 
     def recursion(self,candidates,target,list1,result):
-        if len(candidates)==1:
-            if target==candidates[0]:
-                newlist1=list1.copy()
-                newlist1.append(target)
-                result.append(newlist1)
-                return
-            else:return
+        if len(candidates)==0:return
         newcandidates=candidates.copy()
         current=newcandidates.pop()
         for count in range((target//current)+1):
@@ -41,5 +35,26 @@ class Solution(object):
                 break
             self.recursion(newcandidates,newtarget,newlist1,result)
 
+s=Solution()
+print(s.combinationSum([1],2))
+
+class Solution(object):
+    def combinationSum(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        result=[]
+        candidates.sort(reverse=True)
+        self.dfs(candidates,target,[],result)
+        return result
+    def dfs(self,nums,target,path,result):
+        if target<0:
+            return
+        if target==0:
+            result.append(path)
+        for i in nums:
+            self.dfs(nums,target-i,path+[i],result)
 s=Solution()
 print(s.combinationSum([1],2))
