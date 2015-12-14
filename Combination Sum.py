@@ -57,4 +57,4 @@ class Solution(object):
         for i in nums:
             self.dfs(nums,target-i,path+[i],result)
 s=Solution()
-print(s.combinationSum([1],2))
+print(s.combinationSum([10,1,2,7,6,1,5],8))
