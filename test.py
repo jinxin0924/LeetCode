@@ -1,69 +1,68 @@
-__author__ = 'JxKing'
-# Write a function to find the longest common prefix string amongst an array of strings.
+__author__ = 'Xin'
+# Given a collection of candidate numbers (C) and a target number (T),
+# find all unique combinations in C where the candidate numbers sums to T.
+#
+# Each number in C may only be used once in the combination.
+#
+# Note:
+# All numbers (including target) will be positive integers.
+# Elements in a combination (a1, a2, … , ak) must be in non-descending order. (ie, a1 ≤ a2 ≤ … ≤ ak).
+# The solution set must not contain duplicate combinations.
+#
 
-class Solution(object): # worst case,O(n2)
-    @profile
-    def longestPalindrome(self, s):
+class Solution(object):
+    def combinationSum2(self, candidates, target):
         """
-        :type s: str
-        :rtype: str
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
         """
-        l=len(s)
-        if l<=1:return s
-        if l==2:
-            if s[0]==s[-1]:return s
-            else:return s[0]
-        best=''
-        left=''
-        for i in range(1,l-1):
-            left+=s[i-1]
-            j=i
-            while s[j+1]==s[j] and j<l-2:
-                j+=1
-            mid=s[i:j+1]
-            right=s[j+1:]
-            current=self.checkPalindrome(left,right,mid)
-            if len(current)>len(best):
-                best=current
-        return best
+        dict1={}
+        dict1[1]=0
+        new_candidates=[i for i in candidates if i<target]
+        new_candidates.sort(reverse=True)
+        result=[]
+        self.dfs(new_candidates,target,[],result,dict1)
+        return dict1[1]
+    def dfs(self,nums,target,path,result,dict1):
+        dict1[1]+=1
+        if target==0:
+            if path not in result:
+                result.append(path)
+        if target<0:
+            return
+        if len(nums)==0:return
+        newnums=nums[:]
+        current=newnums.pop()
+        self.dfs(newnums,target-current,path+[current],result,dict1)
+        self.dfs(newnums,target,path,result,dict1)
+s=Solution()
+t=s.combinationSum2([23,32,22,19,29,15,11,26,28,20,34,5,34,7,28,33,30,30,16,33,8,15,28,26,17,10,25,12,6,17,30,16,6,10,23,22,20,29,14,5,6,5,5,6,29,20,34,24,16,7,22,11,17,7,33,21,13,15,29,6,19,16,10,21,21,28,8,6],27)
+print(t)
 
-    @profile
-    def checkPalindrome(self,left,right,i):
-        cnt=0
-
-        while left[-(cnt+1)]==right[cnt]:
-            cnt+=1
-            if cnt==min(len(left),len(right)):
-                break
-        if cnt==0:
-            return i
-        return left[-(cnt):]+i+right[:cnt]
-solution=Solution()
-for i in range(11):
-    solution.longestPalindrome("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
-
-
-class Solution(object): # worst case,O(n2)
-    @profile
-    def longestPalindrome(self, s):
-        """
-        :type s: str
-        :rtype: str
-        """
-        if len(s)==0:
-            return 0
-        maxLen=1
-        start=0
-        for i in range(len(s)):
-            if i-maxLen >=1 and s[i-maxLen-1:i+1]==s[i-maxLen-1:i+1][::-1]:
-                start=i-maxLen-1
-                maxLen+=2
-                continue
-
-            if i-maxLen >=0 and s[i-maxLen:i+1]==s[i-maxLen:i+1][::-1]:
-                start=i-maxLen
-                maxLen+=1
-        return s[start:start+maxLen]
-solution=Solution()
-for i in range(11):
-    solution.longestPalindrome("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
+class Solution:
+    # @param {integer[]} candidates
+    # @param {integer} target
+    # @return {integer[][]}
+    def combinationSum2(self, candidates, target):
+        candidates.sort()
+        combinations, stack = [], [(0, 0, [])]
+        t=0
+        while stack:
+            (total, start, combination) = stack.pop()
+            for index in range(start, len(candidates)):
+                t+=1
+                sum = total + candidates[index]
+                if sum < target:
+                    if (index == start) or (candidates[index] != candidates[index-1]):
+                        # avoid duplicates
+                        stack.append((sum, index+1, combination + [candidates[index]]))
+                else:
+                    if sum == target:
+                        combinations.append(combination + [candidates[index]])
+                    # no need to try any more
+                    break
+        return t
+s=Solution()
+t=s.combinationSum2([23,32,22,19,29,15,11,26,28,20,34,5,34,7,28,33,30,30,16,33,8,15,28,26,17,10,25,12,6,17,30,16,6,10,23,22,20,29,14,5,6,5,5,6,29,20,34,24,16,7,22,11,17,7,33,21,13,15,29,6,19,16,10,21,21,28,8,6],27)
+print(t)
