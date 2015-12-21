@@ -4,30 +4,27 @@ __author__ = 'JxKing'
 # Find the median of the two sorted arrays.
 # The overall run time complexity should be O(log (m+n)).
 
-def bf_findMedianSortedArrays(nums1, nums2): #合并之后取中间值
-    """
-    :type nums1: List[int]
-    :type nums2: List[int]
-    :rtype: float
-    """
-    merge=[]
-    i,j=0,0
-    while i<len(nums1) and j<len(nums2):
-        if nums1[i]<nums2[j]:
-            merge.append(nums1[i])
-            i+=1
+class Solution:
+    # @return a float
+    def findMedianSortedArrays(self, A, B):
+        l=len(A)+len(B)
+        return self.findKth(A,B,l//2) if l%2==1 else (self.findKth(A,B,l//2-1)+self.findKth(A,B,l//2))/2.0
+
+
+    def findKth(self,A,B,k):
+        print(k,A,B)
+        if len(A)>len(B):
+            A,B=B,A
+        if not A:
+            return B[k]
+        if k==len(A)+len(B)-1:
+            return max(A[-1],B[-1])
+        i=len(A)//2
+        j=k-i
+        if A[i]>B[j]:
+            #Here I assume it is O(1) to get A[:i] and B[j:]. In python, it's not but in cpp it is.
+            return self.findKth(A[:i],B[j:],i)
         else:
-            merge.append(nums2[j])
-            j+=1
-    merge+=nums1[i:]
-    merge+=nums2[j:]
-    n=len(merge)
-    if n%2==0:
-        return (merge[n//2]+merge[n//2-1])/2
-    else:
-        return merge[n//2]
-
-print(bf_findMedianSortedArrays([0,1,2,3],[1,4,5,6,7,9]))
-
-# def findMedianSortedArrays(nums1, nums2):
-
+            return self.findKth(A[i:],B[:j],j)
+s=Solution()
+print(s.findKth([1,2,3,4],[0,0,0],3))
