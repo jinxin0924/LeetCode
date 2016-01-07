@@ -19,14 +19,14 @@ class Solution(object):
         :type head: ListNodeListNode(1)
         :rtype: ListNode
         """
-        a=head
-        b=a.next
-        if not b:
-            return a
-        c=b.next
-        head=b
-        if not c:
-            b
+        if not head or not head.next:
+            return head
+        first,second=head,head.next
+        third=second.next
+        second.next=first
+        first.next=self.swapPairs(third)
+        head=second
+        return head
 
 a,b,c,d=ListNode(1),ListNode(2),ListNode(3),ListNode(4)
 a.next=b
