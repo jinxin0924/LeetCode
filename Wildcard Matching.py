@@ -15,6 +15,15 @@ __author__ = 'Xing'
 # isMatch("aa", "a*") → true
 # isMatch("ab", "?*") → true
 # isMatch("aab", "c*a*b") → false
+from functools import wraps
+def memo(func):
+    cache = {}
+    @wraps(func)
+    def wrap(*args):
+        if args not in cache:
+            cache[args] = func(*args)
+        return cache[args]
+    return wrap
 
 class Solution(object):
     # For a 2d table, dp[i][j] would mean whether sub-pattern p[:i + 1]
@@ -24,13 +33,14 @@ class Solution(object):
     # namely current cell value is true if its top or its left is true.
     #  Since the current row only depends on the previous row,
     # we can use two rolling lists to do the dp instead of a matrix.
-    def isMatch(self, s, p):
+    def isMatch2(self, s, p):
         l = len(s)
         if len(p) - p.count('*') > l:
             return False
         dp = [True] + [False] * l
         for letter in p:
             new_dp = [dp[0] and letter == '*']
+            # print('new_dp',new_dp)
             if letter == '*':
                 for j in range(l):
                     new_dp.append(new_dp[-1] or dp[j + 1])
@@ -41,10 +51,43 @@ class Solution(object):
             dp = new_dp
         return dp[-1]
 
+    def isMatch(self,s,p):
+        ls,lp=len(s),len(p)
+        if s==p:return True
+        if ls==0:return p=='*'
+        if lp==0:return s=='*'
+        return self.judge(len(s)-1,len(p)-1,s,p)
+    @memo
+    def judge(self,i,j,s,p):
+        # print(i,j)
+        if i==0 and j==0:
+            return True
+        if i<0 and j>=0:
+            if p[:j+1]=='*'*(j+1):return True
+            else:return False
+        if i>=0 and j<0:
+            if s[:i+1]=='*'*(i+1):return True
+            else:return False
+        if i<0 and j<0:
+            return False
+        # if i==1 and j==1:
+        #     if s[i]==s[j]:return True
+        m=[s[i],p[j]]
+        # print(m)
+        if '*' in m:
+            return self.judge(i-1,j,s,p)|self.judge(i,j-1,s,p)
+        if '?' in m:
+            return self.judge(i-1,j-1,s,p)
+        # print(i,j)
+        # print(p[j])
+        if s[i]==p[j]:
+            return self.judge(i-1,j-1,s,p)
+        return False
+
 
 s = Solution()
-print(s.isMatch('aa', 'a'))
-print(s.isMatch("aa", "aa"))
-print(s.isMatch("aab", "*a*bc"))
-
-
+test=[["abefcdgiescdfimde","ab*cd?i*de"],["abefcdgiescdfimde","ab*cd?i*fimde"],['aa','a'],['aa','aa'],['aa','*'],['c','*?*'],["abbabbbaabaaabbbbbabbabbabbbabbaaabbbababbabaaabbab","*aabb***aa**a******aa*"]]
+# test=[["abbabbbaabaaabbbbbabbabbabbbabbaaabbbababbabaaabbab","*aabb***aa**a******aa*"]]
+for words in test:
+    print(s.isMatch(words[0],words[1]),s.isMatch2(words[0],words[1]))
+    # print(s.isMatch(words[0],words[1]))
