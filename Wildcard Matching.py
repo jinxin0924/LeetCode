@@ -84,10 +84,34 @@ class Solution(object):
             return self.judge(i-1,j-1,s,p)
         return False
 
+    def isMatch3(self,s,p): #错误的那步记录下来，错了就回头
+        s_pointer,p_pointer,s_last,p_last,ls,lp=0,0,-1,-1,len(s),len(p)
+        while s_pointer<ls:
+            # print(s_pointer,p_pointer)
+            if p_pointer<lp and (s[s_pointer]==p[p_pointer]):
+                s_pointer+=1
+                p_pointer+=1
+            elif p_pointer<lp and p[p_pointer]=='?':
+                s_pointer+=1
+                p_pointer+=1
+            elif p_pointer<lp and p[p_pointer]=='*':
+                p_pointer+=1
+                s_last,p_last=s_pointer,p_pointer
+            elif p_last!=-1:
+                s_last+=1
+                s_pointer,p_pointer=s_last,p_last
+            else:
+                return False
+        while p_pointer<lp and p[p_pointer]=='*':
+            p_pointer+=1
+        return (p_pointer==lp) and (s_pointer==ls)
+
+
+
 
 s = Solution()
 test=[["abefcdgiescdfimde","ab*cd?i*de"],["abefcdgiescdfimde","ab*cd?i*fimde"],['aa','a'],['aa','aa'],['aa','*'],['c','*?*'],["abbabbbaabaaabbbbbabbabbabbbabbaaabbbababbabaaabbab","*aabb***aa**a******aa*"]]
-# test=[["abbabbbaabaaabbbbbabbabbabbbabbaaabbbababbabaaabbab","*aabb***aa**a******aa*"]]
+# test=[["aa","a"]]
 for words in test:
-    print(s.isMatch(words[0],words[1]),s.isMatch2(words[0],words[1]))
-    # print(s.isMatch(words[0],words[1]))
+    # print(s.isMatch(words[0],words[1]),s.isMatch2(words[0],words[1]))
+    print(s.isMatch3(words[0],words[1]),s.isMatch2(words[0],words[1]))
