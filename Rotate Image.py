@@ -36,9 +36,11 @@ class Solution(object):
  # * 4 5 6  => 4 5 6  => 8 5 2
  # * 7 8 9     1 2 3     9 6 3
  #  first reverse up to down, then swap the symmetry
+
 s=Solution()
 test=[[[1]],[[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]],[[1,2],[3,4]],[[1,2,3,4,5],[6,7,8,9,10],[11,12,13,14,15],[16,17,18,19,20],[21,22,23,24,25]]]
 for p in test:
     print(s.rotate2(p))
-    print(s.rotate(p))
+    print(s.rotate(p.copy()))
+
 
