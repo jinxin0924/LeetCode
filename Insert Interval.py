@@ -21,14 +21,43 @@ class Solution(object):
         """
         if not intervals:
             return [newInterval]
-        less,more=intervals[0],intervals[0]
-        result=[]
+        left,right=[],[]
+        list1=[[1,newInterval.start],[2,newInterval.end]]
         for p in intervals:
-            if p.start<newInterval.start and p.start>less.start:
-                result.append(less)
-                less=p
-            elif p.start>newInterval.start and p.start<less.start:
-                result.append(more)
-                more=p
-            else:result.append(p)
-        if less.end
+            if p.end<newInterval.start:
+                left.append(p)
+            elif newInterval.end<p.start:
+                right.append(p)
+            else:
+                list1+=[[1,p.start],[2,p.end]]
+        sorted_list=sorted(list1,key=lambda d:(d[1],d[0]))
+        stack=[]
+        mid=[]
+        for p in sorted_list:
+            if p[0]==1:
+                stack.append(p[1])
+            if p[0]==2:
+                if len(stack)==1:
+                    mid.append(Interval(stack.pop(),p[1]))
+                else:
+                    stack.pop()
+        return left+mid+right
+
+    def insert2(self, intervals, newInterval):
+        s, e = newInterval.start, newInterval.end
+        left = [i for i in intervals if i.end < s]
+        right = [i for i in intervals if i.start > e]
+        if left + right != intervals:
+            s = min(s, intervals[len(left)].start)
+            e = max(e, intervals[~len(right)].end)
+        return left + [Interval(s, e)] + right
+
+
+s=Solution()
+# test=[[Interval(1,2),Interval(3,6),Interval(8,10),Interval(15,18)],[Interval(1,4),Interval(4,5)],[Interval(1,5)]]
+test=[[Interval(1,5)]]
+for p in test:
+    result=s.insert(p,Interval(6,8))
+    print([[i.start,i.end] for i in result])
+
+
