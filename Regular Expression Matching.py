@@ -23,27 +23,22 @@ class Solution(object):
         :type p: str
         :rtype: bool
         """
-        ls,lp=len(s),len(p)
-        s_pointer,p_pointer,last_s,last_p=ls-1,lp-1,-1,-1
-        while s_pointer>=0 :
-            if p_pointer>=0 and p[p_pointer]=='*':
-                last_s,last_p=s_pointer,p_pointer
-                p_pointer-=1
-            elif  p_pointer>=0 and p[p_pointer]=='.':
-                p_pointer-=1
-                s_pointer-=1
-            elif p_pointer>=0 and s[s_pointer]==p[p_pointer]:
-                p_pointer-=1
-                s_pointer-=1
-            elif last_p!=-1:
-                s_pointer=last_s-1
-                p_pointer=last_p
-            else:return False
-        if p[p_pointer]=='*':p_pointer=-1
-        return p_pointer==-1 and s_pointer==-1
+        dp = [[False] * (len(s) + 1) for _ in range(len(p) + 1)]
+        dp[0][0] = True
+        for i in range(1, len(p)):
+            dp[i + 1][0] = dp[i - 1][0] and p[i] == '*'
+        for i in range(len(p)):
+            for j in range(len(s)):
+                if p[i] == '*':
+                    dp[i + 1][j + 1] = dp[i - 1][j + 1] or dp[i][j + 1]
+                    if p[i - 1] == s[j] or p[i - 1] == '.':
+                        dp[i + 1][j + 1] |= dp[i + 1][j]
+                else:
+                    dp[i + 1][j + 1] = dp[i][j] and (p[i] == s[j] or p[i] == '.')
+        return dp[-1][-1]
 
 s=Solution()
-test=[("aa","a"),("aa","aa"),("aaa","aa"),("aa","a*"),("aa", ".*"),("ab", ".*"),("aab", "c*a*b")]
-# test=[('aa','aa')]
+# test=[("aa","a"),("aa","aa"),("aaa","aa"),("aa","a*"),("aa", ".*"),("ab", ".*"),("aab", "c*a*b"),("abcd","d*")]
+test=[("aab", "c*a*b")]
 for p in test:
     print(s.isMatch(p[0],p[1]))
