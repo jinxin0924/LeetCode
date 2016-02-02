@@ -19,16 +19,33 @@ class Solution(object):
             a,b=b,a
         result=''
         pre=0
-        for index in range(lb-1,-1,-1):
-            s=int(a[index])+int(b[index])+pre
-            if s==0 or s==1:
-                pre=0
-                result=str(s)+result
-            if s==2 or s==3:
-                pre=1
-                result=str(s%2)+result
-        return a[:(la-lb)]+result
+        for index in range(1,la+1):
+            if index<=lb:
+                s=int(a[-index])+int(b[-index])+pre
+                if s==0 or s==1:
+                    pre=0
+                    result=str(s)+result
+                if s==2 or s==3:
+                    pre=1
+                    result=str(s%2)+result
+            else:
+                s=int(a[-index])+pre
+                if s==0 or s==1:
+                    return a[:(-index)]+str(s)+result
+                elif s==2:
+                    pre=1
+                    result='0'+result
+            if index==la:
+                if pre==0:return result
+                return str(pre)+result
+
+        # print(result)
+
 
 s=Solution()
 print(s.addBinary('111','1'))
 print(s.addBinary('110','1'))
+print(s.addBinary('1101','1'))
+print(s.addBinary('1','1'))
+print(s.addBinary('0','1'))
+
