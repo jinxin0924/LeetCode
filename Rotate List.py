@@ -29,6 +29,8 @@ class Solution(object):
         nodeList[-1].next=nodeList[0]
         nodeList[-k-1].next=None
         return nodeList[-k]
+
+
 s=Solution()
 a1=ListNode(1)
 a2=ListNode(2)
