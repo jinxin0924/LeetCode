@@ -46,6 +46,22 @@ class Solution(object):
                     stack.append([current+[number],number,count-1])
         return result
 
+    def combine3(self,n,k):
+        ans = []
+        stack = []
+        x = 1
+        while True:
+            l = len(stack)
+            if l == k:
+                ans.append(stack[:])
+            if l == k or x > n - k + l + 1:
+                if not stack:
+                    return ans
+                x = stack.pop() + 1
+            else:
+                stack.append(x)
+
+
 s=Solution()
-print(s.combine(4,2))
-print(s.combine2(4,2))
+# print(s.combine(4,2))
+print(s.combine3(4,2))
