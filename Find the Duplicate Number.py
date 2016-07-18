@@ -14,10 +14,17 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        slow=nums[0]
-        while True:
-            print(slow)
+        slow,fast=nums[0],nums[nums[0]]
+        while slow!=fast:
             slow=nums[slow]
+            fast=nums[nums[fast]]
+        fast=0
+        while fast!=slow:
+            fast=nums[fast]
+            slow=nums[slow]
+        return slow
+
+
 
 s=Solution()
-s.findDuplicate([5,1,4,3,5,2])
+print(s.findDuplicate([5,1,4,3,2,2]))
